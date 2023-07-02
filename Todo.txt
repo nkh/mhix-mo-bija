@@ -1,0 +1,166 @@
+tickets belong to a version of software
+
+ticket life cycle
+	created
+	modified
+	closed
+
+ticket users
+	developers
+	first line
+		add their ticket to the release branch
+		dev can merge tickets back
+	
+	managers
+		need to see status
+		write new tickets
+		change field
+
+
+tickets trait/fields
+	defined in text files, IE: status code
+
+bug ticket first class citizen
+	not hidden
+	can be manipulated with shell tools
+
+
+kanban/scrum/project management
+	set of applications that uses the tickets
+
+status
+	Static
+		web pages
+		text
+
+	git/shell commands
+
+non git user adding and modifying ?
+	local web server, extra work tht could go to implement beter commands
+	wizards, can be used by anyone
+
+
+sorting tickets by moving them around
+
+ticket found in any subdir
+	tickets belonging to multiple sub dir?
+		linked
+		found at higher level
+
+	goal is to structure the tickets to be able to get an over view
+		can it match 1 to 1 with code structure? should it?
+
+	as tickets get deleted, when closed, we could keep the tickets with the code
+		when too many tickets are present move them to subdir
+			do we really want to do that? visible tickets are good
+
+ticket id is sha of original title
+		must be unique, add current commit to title
+	
+	can't put the sha in the ticket
+	can't get a sha before a commit
+		multiple tickets can be commited together
+
+
+status, traits and comments
+	the file contains the latest change
+	application
+		puts together a ticket
+		check validity before commit so it fits the ticket format
+		ticket format must be flexible
+		application can have helpers for specific fields of the ticket
+
+	format
+		title
+		meta data
+		latest comment
+		# old comment (not saved)
+
+
+	format really?
+		why would one ever want to force a format?
+			a template can help
+			sometimes one can't fill information
+		
+		at the end of the day what counts is if the information that
+		helps fix the ticket and the status
+
+		status is a bit more tricky
+			done, we can remove the ticket altogether, can be found as deleted in git
+			still current but some people want to have extra trait
+				who's handling it
+				priority
+					high/low, waiting, ...
+				release information
+
+
+closing  a ticket is a commit
+	how do we refer to that commit in the code
+	what if multiple tickets were closed
+	
+	automatically insert ticket information in the commit of code
+		IE: ticket deleted (is it the same as closed?), another modified
+
+		in the commit for the code we add meta data
+			TICKET: commit/title closed
+			TICKET: commit/title changed
+
+
+difference between closing and deleting a ticket
+	we don't want to keep the tickets around
+		we could move meta data to a bug/resolved|closed|...
+			but the data itself stays in the repo branches, no need to copy it around
+
+
+
+ticket related commits
+	if the commit contains a tag, it can be filtered by git --grep
+	
+	git commit could be replaced by git tcommit which would generate
+		a commit message containing the right tags
+
+
+merging tickets in other branches
+	deleted ticket
+	added a ticket
+	modified a ticket
+		if a test for the ticket exists it is self checking
+
+	merging tickets when changed in multiple places
+
+
+
+can we just handle the ticket as any other data and not commit in a special way
+	ticket tools search, display, modify ticket files but we  try to not change the
+	way git is used
+		this is a bit like the other tools do but we want to tickets to be visible
+
+
+use cases:
+
+in a dev branch
+	add a ticket, a file with extension .ticket (can be changed)
+		the ticket tool generates a helpful template but it is
+		otherwise free form
+
+	ticket is added to the git repo
+		a test may be added referring to this ticket
+		SHOULD the TEST be the ticket?
+
+	user can chose if this is enough for a commit (often when new ticket)
+
+	commit with message containing tag TICKET: in the description
+		this is optional as the tool can find ticket files but
+		can make status display better
+
+	work with something else, make commits
+
+	although the ticket is in this branch it is also present in parent branch and maybe other
+	branches
+		to know if this is present in other branches a test is added
+		
+
+
+
+
+
